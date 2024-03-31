@@ -17,8 +17,28 @@ const headers = [
     value: 'type'
   },
   {
+    text: 'Provinsi',
+    value: 'province'
+  },
+  {
+    text: 'Kabupaten/Kota',
+    value: 'regency'
+  },
+  {
+    text: 'Kecamatan',
+    value: 'district'
+  },
+  {
+    text: 'Kelurahan/Desa',
+    value: 'subdistrict'
+  },
+  {
     text: 'Alamat',
-    value: 'addresses'
+    value: 'address'
+  },
+  {
+    text: 'Deskripsi',
+    value: 'description'
   },
   {
     text: 'Aksi',
@@ -85,7 +105,7 @@ onUnmounted(() => {
     <VCol cols="12">
       <VCard>
         <EasyDataTable :headers="headers" :items="ewsDevices" :loading="loading" :search-value="search"
-          buttons-pagination :searchKeys="['code', 'name', 'type', 'addresses']" show-index class="data-table">
+          buttons-pagination :searchKeys="['code', 'name', 'type', 'province', 'regency', 'district', 'subdistrict', 'address']" show-index class="data-table">
           <template #item-operation="item">
             <VBtn :to="{ name: 'admin-ews-device-edit', params: { id: item.id } }" color="primary" size="small"
               class="m-5">

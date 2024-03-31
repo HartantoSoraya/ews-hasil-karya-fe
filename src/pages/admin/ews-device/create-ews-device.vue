@@ -9,13 +9,23 @@ const { createEwsDevice } = useEwsDeviceStore()
 const code = ref('AUTO')
 const name = ref('')
 const type = ref('')
-const addresses = ref([])
+const province = ref('')
+const regency = ref('')
+const district = ref('')
+const subdistrict = ref('')
+const address = ref('')
+const description = ref('')
 
 const handleReset = () => {
   code.value = 'AUTO'
   name.value = ''
   type.value = ''
-  addresses.value = []
+  province.value = ''
+  regency.value = ''
+  district.value = ''
+  subdistrict.value = ''
+  address.value = ''
+  description.value = ''
 }
 
 const handleSubmit = () => {
@@ -23,7 +33,12 @@ const handleSubmit = () => {
     code: code.value,
     name: name.value,
     type: type.value,
-    addresses: addresses.value,
+    province: province.value,
+    regency: regency.value,
+    district: district.value,
+    subdistrict: subdistrict.value,
+    address: address.value,
+    description: description.value,
   })
 }
 
@@ -65,9 +80,29 @@ onUnmounted(() => {
             <VCol cols="12" md="6">
               <VTextField v-model="type" label="Tipe" />
             </VCol>
+            
+            <VCol cols="12" md="6">
+              <VTextField v-model="province" label="Provinsi" />
+            </VCol>
 
             <VCol cols="12" md="6">
-              <VSelect v-model="addresses" label="Alamat" placeholder="Alamat EWS Client" multiple />
+              <VTextField v-model="regency" label="Kabupaten/Kota" />
+            </VCol>
+
+            <VCol cols="12" md="6">
+              <VTextField v-model="district" label="Kecamatan" />
+            </VCol>
+
+            <VCol cols="12" md="6">
+              <VTextField v-model="subdistrict" label="Kelurahan/Desa" />
+            </VCol>
+
+            <VCol cols="12">
+              <VTextField v-model="address" label="Alamat" />
+            </VCol>
+
+            <VCol cols="12">
+              <VTextField v-model="description" label="Deskripsi" />
             </VCol>
 
             <VCol cols="12" md="6" class="d-flex gap-4">
