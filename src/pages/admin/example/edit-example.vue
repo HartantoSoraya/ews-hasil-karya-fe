@@ -1,17 +1,11 @@
 <template>
   <VRow>
-    <VCol
-      cols="12"
-      class="d-flex justify-space-between align-items-center"
-    >
+    <VCol cols="12" class="d-flex justify-space-between align-items-center">
       <h2 class="mb-0">
         Edit Example
       </h2>
 
-      <VBtn
-        :to="{ name: 'admin-example' }"
-        color="primary"
-      >
+      <VBtn :to="{ name: 'admin-example' }" color="primary">
         Kembali
       </VBtn>
     </VCol>
@@ -20,53 +14,23 @@
       <VCard>
         <VForm @submit.prevent="handleSubmit">
           <VRow>
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="code"
-                label="Kode"
-                placeholder="Kode Example"
-                :error-messages="error && error.code ? [error.code] : []"
-                :disabled="loading"
-                :loading="loading"
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="code" label="Kode" placeholder="Kode Example"
+                :error-messages="error && error.code ? [error.code] : []" :disabled="loading" :loading="loading" />
             </VCol>
 
-            <VCol
-              cols="12"
-              md="6"
-            >
-              <VTextField
-                v-model="name"
-                label="Nama"
-                placeholder="Nama Example"
-                :error-messages="error && error.name ? [error.name] : []"
-                :disabled="loading"
-                :loading="loading"
-              />
+            <VCol cols="12" md="6">
+              <VTextField v-model="name" label="Nama" placeholder="Nama Example"
+                :error-messages="error && error.name ? [error.name] : []" :disabled="loading" :loading="loading" />
             </VCol>
 
 
-            <VCol
-              cols="12"
-              class="d-flex gap-4"
-            >
-              <VBtn
-                type="submit"
-                :loading="loading"
-                color="primary"
-              >
+            <VCol cols="12" class="d-flex gap-4">
+              <VBtn type="submit" :loading="loading" color="primary">
                 Simpan
               </VBtn>
 
-              <VBtn
-                type="reset"
-                color="secondary"
-                variant="tonal"
-                @click="handleReset"
-              >
+              <VBtn type="reset" color="secondary" variant="tonal" @click="handleReset">
                 Reset
               </VBtn>
             </VCol>
@@ -93,7 +57,6 @@ const exampleId = route.params.id
 const code = ref('')
 const name = ref('')
 
-
 const fetchExampleData = async () => {
   try {
     const example = await fetchExample(exampleId)
@@ -112,7 +75,6 @@ onMounted(() => {
 })
 
 const handleSubmit = () => {
-
   updateExample({
     id: exampleId,
     code: code.value,
