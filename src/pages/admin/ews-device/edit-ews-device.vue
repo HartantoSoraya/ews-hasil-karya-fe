@@ -61,7 +61,12 @@ const ewsDeviceId = route.params.id
 const code = ref('')
 const name = ref('')
 const type = ref('')
-const addresses = ref([])
+const province = ref('')
+const regency = ref('')
+const district = ref('')
+const subdistrict = ref('')
+const address = ref('')
+const description = ref('')
 
 const fetchEwsDeviceData = async () => {
   try {
@@ -70,7 +75,12 @@ const fetchEwsDeviceData = async () => {
     code.value = ewsDevice.code
     name.value = ewsDevice.name
     type.value = ewsDevice.type
-    addresses.value = ewsDevice.addresses
+    province.value = ewsDevice.province
+    regency.value = ewsDevice.regency
+    district.value = ewsDevice.district
+    subdistrict.value = ewsDevice.subdistrict
+    address.value = ewsDevice.address
+    description.value = ewsDevice.description
   } catch (error) {
     console.error(error)
   }
@@ -88,7 +98,12 @@ const handleSubmit = () => {
     code: code.value,
     name: name.value,
     type: type.value,
-    addresses: addresses.value,
+    province: province.value,
+    regency: regency.value,
+    district: district.value,
+    subdistrict: subdistrict.value,
+    address: address.value,
+    description: description.value,
   })
 }
 
