@@ -1,5 +1,7 @@
 <script setup>
 import { useClientStore } from '@/stores/client'
+import { can } from '@/helpers/permissionHelper'
+
 
 const headers = [
   {
@@ -56,13 +58,21 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VDialog v-if="success" v-model="success" max-width="400">
+  <VDialog
+    v-if="success"
+    v-model="success"
+    max-width="400"
+  >
     <VCard>
       <VCardText>
         {{ success }}
       </VCardText>
       <VCardActions>
-        <VBtn color="primary" text @click="success = null">
+        <VBtn
+          color="primary"
+          text
+          @click="success = null"
+        >
           Tutup
         </VBtn>
       </VCardActions>
@@ -70,35 +80,72 @@ onUnmounted(() => {
   </VDialog>
 
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Client
       </h2>
 
-      <VBtn to="/admin/client/create" color="primary">
+      <VBtn
+        v-if="can('client-create')"
+        to="/app/client/create"
+        color="primary"
+      >
         Tambah Client
       </VBtn>
     </VCol>
 
     <VCol cols="12">
-      <VTextField v-model="search" label="Cari Client" placeholder="Cari client" clearable :loading="loading"
-        variant="solo" />
+      <VTextField
+        v-model="search"
+        label="Cari Client"
+        placeholder="Cari client"
+        clearable
+        :loading="loading"
+        variant="solo"
+      />
     </VCol>
 
     <VCol cols="12">
       <VCard>
-        <EasyDataTable :headers="headers" :items="clients" :loading="loading" :search-value="search" buttons-pagination
-          show-index class="data-table">
+        <EasyDataTable
+          :headers="headers"
+          :items="clients"
+          :loading="loading"
+          :search-value="search"
+          buttons-pagination
+          show-index
+          class="data-table"
+        >
           <template #item-operation="item">
-						<VBtn :to="{ name: 'admin-client-edit', params: { id: item.id } }" color="primary" size="small" class="m-5">
-							Ubah
-						</VBtn>
-						<VBtn :to="{ name: 'admin-client-view', params: { id: item.id } }" color="info" size="small">
-							Detail
-						</VBtn>
-						<VBtn color="error" size="small" class="m-5" @click="() => handleDeleteClient(item)">
-							Hapus
-						</VBtn>
+            <VBtn
+              v-if="can('client-edit')"
+              :to="{ name: 'app-client-edit', params: { id: item.id } }"
+              color="primary"
+              size="small"
+              class="m-5"
+            >
+              Ubah
+            </VBtn>
+            <VBtn
+              v-if="can('client-list')"
+              :to="{ name: 'app-client-view', params: { id: item.id } }"
+              color="info"
+              size="small"
+            >
+              Detail
+            </VBtn>
+            <VBtn
+              v-if="can('client-delete')"
+              color="error"
+              size="small"
+              class="m-5"
+              @click="() => handleDeleteClient(item)"
+            >
+              Hapus
+            </VBtn>
           </template>
         </EasyDataTable>
       </VCard>

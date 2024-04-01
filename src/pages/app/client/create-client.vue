@@ -1,10 +1,22 @@
 <script setup>
 import { useClientStore } from '@/stores/client'
+import { useRegionStore } from '@/stores/region'
+import { useEwsDeviceStore } from '@/stores/ews-device'
 import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted, ref } from 'vue'
 
 const { loading, error } = storeToRefs(useClientStore())
 const { createClient } = useClientStore()
+
+const { ewsDevices } = storeToRefs(useEwsDeviceStore())
+const { fetchEwsDevices } = useEwsDeviceStore()
+
+fetchEwsDevices()
+
+const { provinces, regencies, districts, subdistricts } = storeToRefs(useRegionStore())
+const { fetchProvinces, fetchRegencies, fetchDistricts, fetchSubdistricts } = useRegionStore()
+
+fetchProvinces()
 
 const code = ref('AUTO')
 const name = ref('')
@@ -16,7 +28,6 @@ const district = ref('')
 const subdistrict = ref('')
 const address = ref('')
 const phone = ref('')
-const is_active = ref(true)
 const ews_devices = ref([])
 
 const handleReset = () => {
@@ -30,23 +41,27 @@ const handleReset = () => {
   subdistrict.value = ''
   address.value = ''
   phone.value = ''
-  is_active.value = true
   ews_devices.value = []
 }
 
 const handleSubmit = () => {
+  const provinceName = provinces.value.find(item => item.id === province.value)?.name
+  const regencyName = regencies.value.find(item => item.id === regency.value)?.name
+  const districtName = districts.value.find(item => item.id === district.value)?.name
+  const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.name
+
   createClient({
     code: code.value,
     name: name.value,
     email: email.value,
     password: password.value,
-    province: province.value,
-    regency: regency.value,
-    district: district.value,
-    subdistrict: subdistrict.value,
+    province: provinceName,
+    regency: regencyName,
+    district: districtName,
+    subdistrict: subdistrictName,
     address: address.value,
     phone: phone.value,
-    is_active: Boolean(is_active.value),
+    is_active: 1,
     ews_devices: ews_devices.value,
   })
 }
@@ -60,16 +75,34 @@ onUnmounted(() => {
 
   error.value = null
 })
+
+watch(province, value => {
+  fetchRegencies(value)
+})
+
+watch(regency, value => {
+  fetchDistricts(value)
+})
+
+watch(district, value => {
+  fetchSubdistricts(value)
+})
 </script>
 
 <template>
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         Tambah Client
       </h2>
 
-      <VBtn to="/admin/client" color="primary">
+      <VBtn
+        to="/admin/client"
+        color="primary"
+      >
         Kembali
       </VBtn>
     </VCol>
@@ -78,73 +111,166 @@ onUnmounted(() => {
       <VCard>
         <VForm @submit.prevent="handleSubmit">
           <VRow>
-            <VCol cols="12" md="6">
-              <VTextField v-model="code" label="Kode" placeholder="Kode Client"
-                :error-messages="error && error.code ? [error.code] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="code"
+                label="Kode"
+                placeholder="Kode Client"
+                :error-messages="error && error.code ? [error.code] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="name" label="Nama" placeholder="Nama Client"
-                :error-messages="error && error.name ? [error.name] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="name"
+                label="Nama"
+                placeholder="Nama Client"
+                :error-messages="error && error.name ? [error.name] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="email" label="Email" placeholder="Email Client"
-                :error-messages="error && error.email ? [error.email] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="email"
+                label="Email"
+                placeholder="Email Client"
+                :error-messages="error && error.email ? [error.email] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="password" label="Password" placeholder="Password Client"
-                :error-messages="error && error.password ? [error.password] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="password"
+                label="Password"
+                placeholder="Password Client"
+                :error-messages="error && error.password ? [error.password] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="province" label="Provinsi" placeholder="Provinsi Client"
-                :error-messages="error && error.province ? [error.province] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
+                v-model="province"
+                label="Provinsi"
+                :items="provinces"
+                :error-messages="error && error.province ? [error.province] : []"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="regency" label="Kabupaten/Kota" placeholder="Kabupaten/Kota Client"
-                :error-messages="error && error.regency ? [error.regency] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
+                v-model="regency"
+                label="Kabupaten/Kota"
+                :items="regencies"
+                :error-messages="error && error.regency ? [error.regency] : []"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="district" label="Kecamatan" placeholder="Kecamatan Client"
-                :error-messages="error && error.district ? [error.district] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
+                v-model="district"
+                label="Kecamatan"
+                :items="districts"
+                :error-messages="error && error.district ? [error.district] : []"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="subdistrict" label="Kelurahan/Desa" placeholder="Kelurahan/Desa Client"
-                :error-messages="error && error.subdistrict ? [error.subdistrict] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
+                v-model="subdistrict"
+                label="Kelurahan/Desa"
+                :items="subdistricts"
+                :error-messages="error && error.subdistrict ? [error.subdistrict] : []"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="address" label="Alamat" placeholder="Alamat Client"
-                :error-messages="error && error.address ? [error.address] : []" />
+            <VCol
+              cols="12"
+              md="12"
+            >
+              <VTextarea
+                v-model="address"
+                label="Alamat"
+                placeholder="Alamat Client"
+                :error-messages="error && error.address ? [error.address] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VTextField v-model="phone" label="Telepon" placeholder="Telepon Client"
-                :error-messages="error && error.phone ? [error.phone] : []" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VTextField
+                v-model="phone"
+                label="Telepon"
+                placeholder="Telepon Client"
+                :error-messages="error && error.phone ? [error.phone] : []"
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <VSwitch v-model="is_active" label="Aktif" />
+            <VCol
+              cols="12"
+              md="6"
+            >
+              <VAutocomplete
+                v-model="ews_devices"
+                label="EWS Device"
+                :items="ewsDevices"
+                :error-messages="error && error.ews_devices ? [error.ews_devices] : []"
+                :item-title="item => item.name"
+                :item-value="item => item.id"
+                multiple
+              />
             </VCol>
 
-            <VCol cols="12" md="6">
-              <!-- <VSelect v-model="ews_devices" label="Perangkat EWS" placeholder="Perangkat EWS Client"
-                  :items="ews_devices" item-text="name" item-value="id" multiple /> -->
-              <VSelect v-model="ews_devices" label="Perangkat EWS" placeholder="Perangkat EWS Client"
-                :error-messages="error && error.ews_devices ? [error.ews_devices] : []" />
-            </VCol>
-
-            <VCol cols="12" class="d-flex gap-4">
-              <VBtn type="submit" :loading="loading" color="primary">
+            <VCol
+              cols="12"
+              class="d-flex gap-4"
+            >
+              <VBtn
+                type="submit"
+                :loading="loading"
+                color="primary"
+              >
                 Simpan
               </VBtn>
 
-              <VBtn color="secondary" variant="tonal" @click="handleReset">
+              <VBtn
+                color="secondary"
+                variant="tonal"
+                @click="handleReset"
+              >
                 Reset
               </VBtn>
             </VCol>

@@ -46,7 +46,7 @@ export const useClientStore = defineStore({
 
         this.success = response.data.message
 
-        router.push({ name: "admin-client" })
+        router.push({ name: "app-client" })
       } catch (error) {
         this.error = handleError(error)
       } finally {
@@ -61,7 +61,7 @@ export const useClientStore = defineStore({
 
         this.success = response.data.message
 
-        router.push({ name: "admin-client" })
+        router.push({ name: "app-client" })
       } catch (error) {
         this.error = handleError(error)
       } finally {

@@ -8,8 +8,7 @@ import { can } from '@/helpers/permissionHelper'
     v-if="can('dashboard')"
     :item="{
       title: 'Dashboard',
-      icon: 'bx-home',
-      to: '/app/dashboard',
+      icon: 'bx-home', to: '/app/dashboard',
     }"
   />
 
@@ -35,7 +34,7 @@ import { can } from '@/helpers/permissionHelper'
     :item="{
       title: 'Client',
       icon: 'bx-user',
-      to: '/admin/client',
+      to: '/app/client',
     }"
   />
 </template>
