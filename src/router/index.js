@@ -1,24 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import adminRoutes from './admin'
 import publicRouter from './public'
 import { useAuthStore } from '@/stores/auth'
+import appRoutes from './app'
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { path: '/admin', redirect: 'admin/dashboard' },
+    { path: '/app', redirect: 'app/dashboard' },
     {
-      path: '/admin',
+      path: '/app',
       component: () => import('../layouts/default.vue'),
       meta: { requiresAuth: true },
       children: [
         {
           path: 'dashboard',
-          component: () => import('../pages/admin/dashboard.vue'),
+          component: () => import('../pages/app/dashboard.vue'),
           name: 'dashboard',
         },
-        ...adminRoutes,
+        ...appRoutes,
       ],
     },
     {
@@ -50,6 +50,17 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     try {
       await authStore.checkAuth()
+
+      const userPermissions = authStore.user?.permissions || []
+
+      if (to.meta.permissions) {
+        const hasPermission = to.meta.permissions.every(permission => userPermissions.includes(permission))
+        if (!hasPermission) {
+          next({ name: '403' })
+          
+          return
+        }
+      }
 
       next()
     } catch (error) {

@@ -1,7 +1,12 @@
 const publicRouter = [
   {
     path: '',
-    redirect: 'admin/dashboard',
+    redirect: 'app/dashboard',
+  },
+  {
+    path: '/403',
+    component: () => import('@/pages/403.vue'),
+    name: '403',
   },
 ]
 
