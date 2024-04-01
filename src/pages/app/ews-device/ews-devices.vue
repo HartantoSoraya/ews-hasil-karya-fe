@@ -1,5 +1,7 @@
 <script setup>
 import { useEwsDeviceStore } from '@/stores/ews-device'
+import { can } from '@/helpers/permissionHelper'
+
 
 const headers = [
   {
@@ -104,6 +106,7 @@ onUnmounted(() => {
       </h2>
 
       <VBtn
+        v-if="can('ews-device-create')"
         to="/app/ews-device/create"
         color="primary"
       >
@@ -136,6 +139,7 @@ onUnmounted(() => {
         >
           <template #item-operation="item">
             <VBtn
+              v-if="can('ews-device-edit')"
               :to="{ name: 'app-ews-device-edit', params: { id: item.id } }"
               color="primary"
               size="small"
@@ -144,6 +148,7 @@ onUnmounted(() => {
               Ubah
             </VBtn>
             <VBtn
+              v-if="can('ews-device-list')"
               :to="{ name: 'app-ews-device-view', params: { id: item.id } }"
               color="info"
               size="small"
@@ -151,6 +156,7 @@ onUnmounted(() => {
               Detail
             </VBtn>
             <VBtn
+              v-if="can('ews-device-delete')"
               color="error"
               size="small"
               class="m-5"

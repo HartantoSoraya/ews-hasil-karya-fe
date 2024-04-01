@@ -1,15 +1,11 @@
 <script setup>
-import { useAuthStore } from '@/stores/auth'
-
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-
-const { user, checkAuth } = useAuthStore()
-
-checkAuth()
+import { can } from '@/helpers/permissionHelper'
 </script>
 
 <template>
   <VerticalNavLink
+    v-if="can('dashboard')"
     :item="{
       title: 'Dashboard',
       icon: 'bx-home',
@@ -18,6 +14,7 @@ checkAuth()
   />
 
   <VerticalNavLink
+    v-if="can('ews-device-list')"
     :item="{
       title: 'Ews Device',
       icon: 'bx-devices',
@@ -26,6 +23,7 @@ checkAuth()
   />
 
   <VerticalNavLink
+    v-if="can('ews-device-measurement-list')"
     :item="{
       title: 'Ews Device Measurement',
       icon: 'bx-chart',
@@ -33,6 +31,7 @@ checkAuth()
   />
 
   <VerticalNavLink
+    v-if="can('client-list')"
     :item="{
       title: 'Client',
       icon: 'bx-user',

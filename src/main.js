@@ -26,6 +26,8 @@ app.use(router)
 app.use(Vue3EasyDataTable)
 app.use(VueApexCharts)
 
+
+
 app.component('EasyDataTable', Vue3EasyDataTable)
 
 app.mount('#app')

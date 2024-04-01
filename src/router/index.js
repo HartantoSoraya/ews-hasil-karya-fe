@@ -51,6 +51,17 @@ router.beforeEach(async (to, from, next) => {
     try {
       await authStore.checkAuth()
 
+      const userPermissions = authStore.user?.permissions || []
+
+      if (to.meta.permissions) {
+        const hasPermission = to.meta.permissions.every(permission => userPermissions.includes(permission))
+        if (!hasPermission) {
+          next({ name: '403' })
+          
+          return
+        }
+      }
+
       next()
     } catch (error) {
       next({ name: 'login' })
