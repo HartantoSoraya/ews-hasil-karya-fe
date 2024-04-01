@@ -10,35 +10,35 @@ const headers = [
   },
   {
     text: 'Nama',
-    value: 'name'
+    value: 'name',
   },
   {
     text: 'Tipe',
-    value: 'type'
+    value: 'type',
   },
   {
     text: 'Provinsi',
-    value: 'province'
+    value: 'province',
   },
   {
     text: 'Kabupaten/Kota',
-    value: 'regency'
+    value: 'regency',
   },
   {
     text: 'Kecamatan',
-    value: 'district'
+    value: 'district',
   },
   {
     text: 'Kelurahan/Desa',
-    value: 'subdistrict'
+    value: 'subdistrict',
   },
   {
     text: 'Alamat',
-    value: 'address'
+    value: 'address',
   },
   {
     text: 'Deskripsi',
-    value: 'description'
+    value: 'description',
   },
   {
     text: 'Aksi',
@@ -73,13 +73,21 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <VDialog v-id="success" v-model="success" max-width="400">
+  <VDialog
+    v-model="success"
+    v-id="success"
+    max-width="400"
+  >
     <VCard>
       <VCardText>
         {{ success }}
       </VCardText>
       <VCardActions>
-        <VBtn color="primary" text @click="success = false">
+        <VBtn
+          color="primary"
+          text
+          @click="success = false"
+        >
           Tutup
         </VBtn>
       </VCardActions>
@@ -87,34 +95,67 @@ onUnmounted(() => {
   </VDialog>
 
   <VRow>
-    <VCol cols="12" class="d-flex justify-space-between align-items-center">
+    <VCol
+      cols="12"
+      class="d-flex justify-space-between align-items-center"
+    >
       <h2 class="mb-0">
         EWS Device
       </h2>
 
-      <VBtn to="/admin/ews-device/create" color="primary">
+      <VBtn
+        to="/app/ews-device/create"
+        color="primary"
+      >
         Tambah EWS Device
       </VBtn>
     </VCol>
 
     <VCol cols="12">
-      <VTextField v-model="search" label="Cari EWS Device" placeholder="Cari EWS Device" clearable :loading="loading"
-        variant="solo" />
+      <VTextField
+        v-model="search"
+        label="Cari EWS Device"
+        placeholder="Cari EWS Device"
+        clearable
+        :loading="loading"
+        variant="solo"
+      />
     </VCol>
 
     <VCol cols="12">
       <VCard>
-        <EasyDataTable :headers="headers" :items="ewsDevices" :loading="loading" :search-value="search"
-          buttons-pagination :searchKeys="['code', 'name', 'type', 'province', 'regency', 'district', 'subdistrict', 'address']" show-index class="data-table">
+        <EasyDataTable
+          :headers="headers"
+          :items="ewsDevices"
+          :loading="loading"
+          :search-value="search"
+          buttons-pagination
+          :search-keys="['code', 'name', 'type', 'province', 'regency', 'district', 'subdistrict', 'address']"
+          show-index
+          class="data-table"
+        >
           <template #item-operation="item">
-            <VBtn :to="{ name: 'admin-ews-device-edit', params: { id: item.id } }" color="primary" size="small"
-              class="m-5">
+            <VBtn
+              :to="{ name: 'app-ews-device-edit', params: { id: item.id } }"
+              color="primary"
+              size="small"
+              class="m-5"
+            >
               Ubah
             </VBtn>
-            <VBtn :to="{ name: 'admin-ews-device-view', params: { id: item.id } }" color="info" size="small">
+            <VBtn
+              :to="{ name: 'app-ews-device-view', params: { id: item.id } }"
+              color="info"
+              size="small"
+            >
               Detail
             </VBtn>
-            <VBtn color="error" size="small" class="m-5" @click="() => handleDeleteClient(item)">
+            <VBtn
+              color="error"
+              size="small"
+              class="m-5"
+              @click="() => handleDeleteClient(item)"
+            >
               Hapus
             </VBtn>
           </template>

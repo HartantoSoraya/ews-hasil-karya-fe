@@ -1,5 +1,5 @@
 import adminExampleRoutes from "./admin-example"
-import adminEwsDeviceRoutes from "./admin-ews-device"
+import adminEwsDeviceRoutes from "./app-ews-device"
 import adminClientRoutes from "./admin-client"
 
 const adminRoutes = [
