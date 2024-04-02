@@ -153,6 +153,9 @@
                 show-index
                 class="data-table"
               />
+              <template #item-created_at="item">
+                {{ item.created_at }}
+              </template>
             </VCol>
           </VRow>
         </VForm>
@@ -168,6 +171,10 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 
 const addressHistoryHeaders = [
+  {
+    text: 'Tanggal',
+    value: 'created_at',
+  },
   {
     text: 'Provinsi',
     value: 'province',
@@ -240,6 +247,6 @@ onMounted(() => {
 
 <style lang="scss">
 .v-row {
-    margin: 0px !important;
+  margin: 0px !important;
 }
 </style>
