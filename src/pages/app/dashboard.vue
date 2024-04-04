@@ -24,19 +24,6 @@ let timer = null
 
 
 const fetchData = async () => {
-  if (chart) {
-    chart.destroy()
-    chart = null
-
-    const vibrationText = document.querySelectorAll('VText')[0]
-    const dbText = document.querySelectorAll('VText')[1]
-    const timeText = document.querySelectorAll('VText')[2]
-
-    vibrationText.innerText = '0 mm/s'
-    dbText.innerText = '0 dB'
-    timeText.innerText = '-'
-  }
-
   if (selectedDevice.value) {
     const chartData = await getChartData(selectedDevice.value)
 
