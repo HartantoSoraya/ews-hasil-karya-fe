@@ -217,6 +217,7 @@ const clientId = route.params.id
 
 const code = ref('')
 const name = ref('')
+const email = ref('')
 const password = ref('')
 const province = ref('')
 const regency = ref('')
@@ -233,21 +234,21 @@ const fetchClientData = async () => {
 
     code.value = client.code
     name.value = client.name
-    password.value = client.password
+    email.value = client.email
    
-    province.value = provinces.value.find(item => item.nama === client.province)?.id
+    province.value = provinces.value.find(item => item.name === client.province)?.id
 
     await fetchRegencies(province.value)
 
-    regency.value = regencies.value.find(item => item.nama === client.regency)?.id
+    regency.value = regencies.value.find(item => item.name === client.regency)?.id
 
     await fetchDistricts(regency.value)
 
-    district.value = districts.value.find(item => item.nama === client.district)?.id
+    district.value = districts.value.find(item => item.name === client.district)?.id
 
     await fetchSubdistricts(district.value)
 
-    subdistrict.value = subdistricts.value.find(item => item.nama === client.subdistrict)?.id
+    subdistrict.value = subdistricts.value.find(item => item.name === client.subdistrict)?.id
 
     address.value = client.address
     phone.value = client.phone
@@ -265,10 +266,10 @@ onMounted(() => {
 })
 
 const handleSubmit = () => {
-  const provinceName = provinces.value.find(item => item.id === province.value)?.nama
-  const regencyName = regencies.value.find(item => item.id === regency.value)?.nama
-  const districtName = districts.value.find(item => item.id === district.value)?.nama
-  const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.nama
+  const provinceName = provinces.value.find(item => item.id === province.value)?.name
+  const regencyName = regencies.value.find(item => item.id === regency.value)?.name
+  const districtName = districts.value.find(item => item.id === district.value)?.name
+  const subdistrictName = subdistricts.value.find(item => item.id === subdistrict.value)?.name
 
   updateClient({
     id: clientId,
