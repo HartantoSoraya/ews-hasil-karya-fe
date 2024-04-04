@@ -36,6 +36,9 @@ checkAuth()
           </template>
 
           <VListItemTitle class="font-weight-semibold">
+            {{ user?.name }}
+          </VListItemTitle>
+          <VListItemTitle class="font-weight-semibold">
             {{ user?.email }}
           </VListItemTitle>
         </VListItem>
