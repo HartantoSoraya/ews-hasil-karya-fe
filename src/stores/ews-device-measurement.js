@@ -25,11 +25,24 @@ export const useEwsDeviceMeasurementStore = defineStore({
         this.loading = false
       }
     },
-    async getEwsDeviceMeasurments() {
+    async fetchEwsDeviceMeasurements(ews_device_id, start_date, end_date) {
       try {
+
+        console.log(ews_device_id, start_date, end_date)
         this.loading = true
 
-        const response = await axiosInstance.get("/ews-device-measurements")
+        const response = await axiosInstance.get("/ews-device-measurements", {
+          params: {
+            ews_device_id: ews_device_id,
+            start_date: start_date,
+            end_date: end_date,
+          },
+        })
+        
+        response.data.data.forEach(item => {
+          item.created_at = new Date(item.created_at).toLocaleString()
+        })
+        
 
         this.ewsDeviceMeasurments = response.data.data
       } catch (error) {
