@@ -20,6 +20,16 @@ import { can } from '@/helpers/permissionHelper'
       to: '/app/ews-device',
     }"
   />
+
+  <VerticalNavLink
+    v-if="can('ews-device-measurement-list')"
+    :item="{
+      title: 'Log Data Ews Device',
+      icon: 'bx-data',
+      to: '/app/ews-device-measurement',
+    }"
+  />
+  
   
   <VerticalNavLink
     v-if="can('client-list')"
