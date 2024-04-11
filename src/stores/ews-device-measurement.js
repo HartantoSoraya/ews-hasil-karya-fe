@@ -28,7 +28,6 @@ export const useEwsDeviceMeasurementStore = defineStore({
     async fetchEwsDeviceMeasurements(ews_device_id, start_date, end_date) {
       try {
 
-        console.log(ews_device_id, start_date, end_date)
         this.loading = true
 
         const response = await axiosInstance.get("/ews-device-measurements", {

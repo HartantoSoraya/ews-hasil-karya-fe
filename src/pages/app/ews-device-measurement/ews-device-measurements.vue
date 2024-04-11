@@ -23,11 +23,56 @@ const headers = [
 const selectedDevice = ref(null)
 const startDate = ref(null)
 const endDate = ref(null)
+const series = ref([])
+
+const chartOptions = ref({
+  chart: {
+    type: 'area',
+    height: 350,
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [],
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm',
+    },
+  },
+})
 
 const { ewsDeviceMeasurments, loading, error, success } = storeToRefs(useEwsDeviceMeasurementStore())
 const { fetchEwsDeviceMeasurements } = useEwsDeviceMeasurementStore()
 
 
+const fetchEwsDeviceMeasurementsAndShowChart = async () => {
+  const data = {
+    device_id: selectedDevice.value,
+    start_date: startDate.value,
+    end_date: endDate.value,
+  }
+
+  await fetchEwsDeviceMeasurements(data)
+
+  series.value = [
+    {
+      name: 'Getaran',
+      data: ewsDeviceMeasurments.value.map(item => [new Date(item.created_at).getTime(), item.vibration_value]),
+    },
+    {
+      name: 'Suara',
+      data: ewsDeviceMeasurments.value.map(item => [new Date(item.created_at).getTime(), item.db_value]),
+    },
+  ]
+
+  chartOptions.value.xaxis.categories = ewsDeviceMeasurments.value.map(item => item.created_at)
+}
 
 const { ewsDevices } = storeToRefs(useEwsDeviceStore())
 const { fetchEwsDevices } = useEwsDeviceStore()
@@ -89,7 +134,7 @@ onUnmounted(() => {
     >
       <button
         class="btn-search"
-        @click="fetchEwsDeviceMeasurements(selectedDevice, startDate, endDate)"
+        @click="fetchEwsDeviceMeasurementsAndShowChart"
       >
         <VIcon>
           mdi-magnify
@@ -118,6 +163,19 @@ onUnmounted(() => {
           show-index
           class="data-table"
         />
+      </VCard>
+    </VCol>
+
+    <VCol cols="12">
+      <VCard>
+        <div id="chart">
+          <apexchart
+            type="area"
+            height="350"
+            :options="chartOptions"
+            :series="series"
+          />
+        </div>
       </VCard>
     </VCol>
   </VRow>
