@@ -253,7 +253,7 @@ const fetchClientData = async () => {
     address.value = client.address
     phone.value = client.phone
     is_active.value = client.is_active ? true : false
-    ews_devices.value = client.ews_devices
+    ews_devices.value = client.ews_devices.map(item => item.id)
   } catch (error) {
     console.error(error)
   }

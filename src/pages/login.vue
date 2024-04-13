@@ -20,6 +20,7 @@ const onSubmit = () => {
 onMounted(() => {
   error.value = null
   loading.value = false
+  document.title = 'Login'
 })
 </script>
 

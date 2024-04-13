@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 import Chart from 'chart.js/auto'
 import 'chartjs-plugin-datalabels'
 import { useAuthStore } from "@/stores/auth"
@@ -15,13 +15,11 @@ const { fetchEwsDevices } = useEwsDeviceStore()
 
 fetchEwsDevices()
 
-
 const { getChartData } = useEwsDeviceMeasurementStore()
 
 const chartCanvas = ref(null)
 let chart = null
 let timer = null
-
 
 const fetchData = async () => {
   if (selectedDevice.value) {
@@ -46,7 +44,6 @@ const fetchData = async () => {
     timeText.innerText = time
   }
 }
-
 
 const updateChart = latestData => {
   const { vibration_value, db_value, time } = latestData[0]
@@ -95,6 +92,27 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearInterval(timer)
+})
+
+watch(selectedDevice, () => {
+  if (chart) {
+    chart.destroy()
+    chart = null
+
+    const canvas = chartCanvas.value
+    const context = canvas.getContext('2d')
+
+    context.clearRect(0, 0, canvas.width, canvas.height)
+
+    const vibrationText = document.querySelectorAll('VText')[0]
+    const dbText = document.querySelectorAll('VText')[1]
+    const timeText = document.querySelectorAll('VText')[2]
+
+    vibrationText.innerText = '0 mm/s'
+    dbText.innerText = '0 dB'
+    timeText.innerText = '-'
+  }
+  fetchData()
 })
 </script>
 
