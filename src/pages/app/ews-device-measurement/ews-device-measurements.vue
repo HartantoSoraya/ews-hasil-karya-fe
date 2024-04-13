@@ -81,6 +81,10 @@ fetchEwsDevices()
 
 onMounted(() => {
   document.title = 'EWS Device'
+  
+  ewsDeviceMeasurments.value = []
+  series.value = []
+  chartOptions.value.xaxis.categories = []
 })
 
 onUnmounted(() => {
