@@ -1,0 +1,1 @@
+import{o as e,J as a,c as t,l as _,T as o}from"./index-19627c6f.js";import{_ as s}from"./_plugin-vue_export-helper-c27b6911.js";const c={class:"layout-wrapper layout-blank"},r={__name:"auth",setup(n){return(p,u)=>(e(),a("div",c,[t(_(o))]))}},i=s(r,[["__scopeId","data-v-16c04a33"]]);export{i as default};
