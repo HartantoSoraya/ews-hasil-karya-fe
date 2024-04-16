@@ -1,6 +1,5 @@
 
 <script setup>
-
 import { RouterView } from 'vue-router'
 </script>
 
@@ -10,12 +9,24 @@ import { RouterView } from 'vue-router'
   </div>
 </template>
 
-<style>
-.layout-wrapper.layout-blank {
-  flex-direction: column;
+<style scoped>
+.layout-wrapper {
+  height: 100vh;
+  background: linear-gradient(135deg, #1de9b6, #1dc4e9);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
 }
 
-.layout-wrapper.layout-blank{
-  background-color: #fff !important;
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 </style>
+

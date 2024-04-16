@@ -38,9 +38,9 @@ onMounted(() => {
         <VBtn
           color="primary"
           block
-          @click="error = false, form.email = '', form.password = ''"
+          @click="error = false"
         >
-          Ok
+          OK
         </VBtn>
       </VCardActions>
     </VCard>
@@ -52,7 +52,7 @@ onMounted(() => {
       width="448"
     >
       <VCardText class="pt-2">
-        <h5 class="text-h5 mb-1">
+        <h5 class="text-h5 mb-1 color-white">
           Early Warning System
         </h5>
         <p class="mb-0">
@@ -100,10 +100,31 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss">
-@use "@core/scss/template/pages/page-auth.scss";
+<style lang="scss" src="@core/scss/template/pages/page-auth.scss"></style>
 
-.text-danger {
-  color: #f44336;
+<style scoped>
+.auth-card {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff !important;
+}
+
+.color-white {
+  color: #fff !important;
+}
+
+::placeholder {
+  color: #fff !important;
 }
 </style>

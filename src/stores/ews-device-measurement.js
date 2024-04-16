@@ -38,11 +38,6 @@ export const useEwsDeviceMeasurementStore = defineStore({
           },
         })
         
-        response.data.data.forEach(item => {
-          item.created_at = new Date(item.created_at).toLocaleString()
-        })
-        
-
         this.ewsDeviceMeasurments = response.data.data
       } catch (error) {
         this.handleError(error)
